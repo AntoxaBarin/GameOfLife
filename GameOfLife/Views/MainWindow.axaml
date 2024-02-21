@@ -1,0 +1,118 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GameOfLife.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="1200"
+        MinHeight="1080"
+        MaxHeight="1080"
+        MinWidth="1720"
+        MaxWidth="1720"
+        Closing="Window_OnClosing"
+        x:Class="GameOfLife.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="GameOfLife">
+        
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <SplitView IsPaneOpen="True"
+               DisplayMode="Inline"
+               OpenPaneLength="296">
+        <SplitView.Pane>
+            <Grid RowDefinitions="20,20,20,20,85,110,75,20,20,20,20,20,20,20,20,20,20,20">
+            
+                <Button Grid.Row="1" Name="Start" Content=" Start game" Click="StartButton_click" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,0,0,0"  Width="110" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="1" Name="Stop" Content="   Stop" Click="StopButton_click" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="190,0,0,0"  Width="90" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="2" Name="Reset" Content="  Reset " Click="ResetButton_click" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="200,38,0,0"  Width="80" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="2" Name="OneGenerationStep" Content="  Make steps " Click="Make_Steps_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,38,0,0"  Width="130" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <NumericUpDown Grid.Row="3" x:Name="StepsNumber" Width="40" ShowButtonSpinner="False" Minimum="0" Maximum="10" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,30,0,0"/>
+                <TextBlock Grid.Row="4" x:Name="Steps_textBox"  VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" Margin="-50,-15,10,0" Text="Steps"/>
+                <Button Grid.Row="4" Name="OneStep" Click="One_Step_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top"  Content=" One step" FontSize="14" Margin="0,-20,15,0" />
+                <TextBlock Grid.Row="4" x:Name="GenerationNumber" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="18" Margin="20,30,10,0" Text="Generation: 0"/>
+                
+                <Line Grid.Row="5" StartPoint="0,-15" EndPoint="300,-15" Stroke="Coral" StrokeThickness="3"/>
+                
+                <TextBlock Grid.Row="4" x:Name="Settings" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" Margin="-10,80,10,-20" Text="Settings"/>
+                <CheckBox Grid.Row="5" x:Name="RandomCheckBox" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,25,0,0"> Random start</CheckBox>
+                <TextBlock Grid.Row="5" Text="Сell color" HorizontalAlignment="Right" Margin="0,33,20,0"/>
+                <Button Grid.Row="5" x:Name="ChangeColorButton" HorizontalAlignment="Center" Height="30" Width="30" Click="ChangeColorButton_OnClick" Background="White" BorderBrush="Coral" BorderThickness="4" Margin="100,0,20,30"/>
+                
+                <Button Grid.Row="5" x:Name="SaveLifeCellsNumber" Width="200" FontSize="16" Margin="20,65,0,0" HorizontalAlignment="Left" Height="35" Content="Neighbours to save life">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <CheckBox Content="0" x:Name="CheckBoxSaveLife0" />
+                            <CheckBox Content="1" x:Name="CheckBoxSaveLife1" />
+                            <CheckBox Content="2" x:Name="CheckBoxSaveLife2" />
+                            <CheckBox Content="3" x:Name="CheckBoxSaveLife3" />
+                            <CheckBox Content="4" x:Name="CheckBoxSaveLife4" />
+                            <CheckBox Content="5" x:Name="CheckBoxSaveLife5" />
+                            <CheckBox Content="6" x:Name="CheckBoxSaveLife6" />
+                            <CheckBox Content="7" x:Name="CheckBoxSaveLife7" />
+                            <CheckBox Content="8" x:Name="CheckBoxSaveLife8" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                
+                <Button Grid.Row="6" x:Name="MakeLifeCellsNumber" Width="200" FontSize="16" Margin="20,0,0,30" HorizontalAlignment="Left" Height="35" Content="Neighbours to make life">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <CheckBox Content="0" x:Name="CheckBoxMakeLife0" />
+                            <CheckBox Content="1" x:Name="CheckBoxMakeLife1" />
+                            <CheckBox Content="2" x:Name="CheckBoxMakeLife2" />
+                            <CheckBox Content="3" x:Name="CheckBoxMakeLife3" />
+                            <CheckBox Content="4" x:Name="CheckBoxMakeLife4" />
+                            <CheckBox Content="5" x:Name="CheckBoxMakeLife5" />
+                            <CheckBox Content="6" x:Name="CheckBoxMakeLife6" />
+                            <CheckBox Content="7" x:Name="CheckBoxMakeLife7" />
+                            <CheckBox Content="8" x:Name="CheckBoxMakeLife8" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                
+                <Line Grid.Row="7" StartPoint="0,-25" EndPoint="300,-25" Stroke="Coral" StrokeThickness="3"/>
+                
+                <TextBlock Grid.Row="6" x:Name="BasicFigures" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" Margin="0,60,10,-10" Text="Basic figures"/>
+                <Button Grid.Row="7" Name="Glider" Content="Glider" Click="Glider_click" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,25,0,0"  Width="65" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="7" Name="Pulsar" Content="Pulsar" Click="Pulsar_click" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="215,25,0,0"  Width="65" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="7" Name="GosperGun" Content=" Gosper gun " Click="GosperGun_click" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="90,25,0,0"  Width="120" Height="40" Foreground="Bisque" Background="DarkRed"/>
+
+                <Line Grid.Row="8" StartPoint="0, 40" EndPoint="300, 40" Stroke="Coral" StrokeThickness="3"/>
+                
+                <Button Grid.Row="9" Name="StartFromFile" Content="Start from file" Click="StartFromFile_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,45,0,0"  Width="130" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="9" Name="SaveToFile" Content=" Save to file" Click="SaveToFile_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="170,45,0,0"  Width="110" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                
+                <CheckBox Grid.Row="10" x:Name="ImageSave" Height="20" Width="180" Margin="20,40,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" Content="Image start/save"/>
+                
+                <Line Grid.Row="11" StartPoint="0, 20" EndPoint="300, 20" Stroke="Coral" StrokeThickness="3"/>
+                
+                <TextBlock Grid.Row="11"  x:Name="GameMessageBox" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" FontSize="19" Margin="20,30,10,0" Text=""/>
+                <TextBlock Grid.Row="12"  x:Name="ErrorMessageBox" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" FontSize="19" Margin="20,30,10,0" Text=""/>
+                
+                <Button Grid.Row="13" Name="LoadField" Content=" Load autosaved field" Click="LoadField_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,30,0,0"  Width="190" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="14" Name="SaveField" Content=" Autosave field" Click="AutosaveField_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,40,0,0"  Width="190" Height="40" Foreground="Bisque" Background="DarkRed"/>
+
+                <Line Grid.Row="14" StartPoint="0, 100" EndPoint="300, 100" Stroke="Coral" StrokeThickness="3"/>
+                <Button Grid.Row="15" Name="SaveFieldToDB" Content=" Save to database" Click="SaveFieldToDB_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,60,0,0"  Width="190" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <Button Grid.Row="16" Name="LoadFieldFromDB" Content=" Load from database" Click="LoadFieldFromDB_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Margin="20,40,0,0"  Width="190" Height="40" Foreground="Bisque" Background="DarkRed"/>
+                <NumericUpDown Grid.Row="16" x:Name="FieldID" Width="40" ShowButtonSpinner="False" Minimum="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,100,0,0"/>
+                <TextBlock Grid.Row="16"  x:Name="FieldIdTextBlock" VerticalAlignment="Top" Height="25" HorizontalAlignment="Left" FontSize="22" Margin="30,100,10,0" Text="ID"/>
+                <TextBlock Grid.Row="16"  x:Name="DBInfoTextBlock" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" FontSize="16" Margin="30,105,10,0" Text=""/>
+                
+            </Grid>
+        </SplitView.Pane>
+
+        <Grid ColumnDefinitions="Auto, Auto">
+            <ScrollViewer x:Name="ScrollViewerGameField" Grid.Column="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Height="1080" Width="1420" Margin="0,0,0,0">
+                <Image x:Name="image" Height="1500" Width="1500" PointerLeave="GameFieldImage_OnPointerLeave" PointerMoved="GameFieldImage_OnPointerMoved" PointerPressed="GameFieldImage_OnPointerPressed" PointerWheelChanged="GameFieldImage_OnPointerWheelChanged" />
+            </ScrollViewer>
+        </Grid>
+        
+    </SplitView>
+    
+</Window>
